@@ -1,0 +1,132 @@
+<div>
+	<div class='menu_item' style='float:right;'><img class="menu_close" src='tyrano/images/system/button_x.png' /></div>
+	
+	<div style='clear:both'></div>
+	
+	<img class="button_arrow_up" src='tyrano/images/system/log_scroll_pad.png' style='cursor:pointer;left:670px;top:20px;position:absolute;'>
+    <img class="button_arrow_down" src='tyrano/images/system/log_scroll_pad.png' style='cursor:pointer;left:760px;top:15px;position:absolute;'>
+	<img class="log_scroll_bar" src='tyrano/images/system/log_scroll_bar.png'>
+	<img class="save_key" src='tyrano/images/system/save_key.png'>
+
+    <div class="area_save_list">
+    	
+    	<ul class='save_list'>
+    		{{for array_save}}
+    			<li class='save_display_area save_list_item' data-num='{{:num}}'>
+    				<div class="contenedor">
+                        <div class="fila">
+                            <div class="columna">
+							    {{if title !== "Empty Save Slot"}}
+								    <img class='save_list_item_num_left' data-num='{{:num}}' data-status='active' src="tyrano/images/system/slot_number/active/{{:num}}.png">
+								{{else}}
+								    <img class='save_list_item_num_left' data-num='{{:num}}' data-status='empty' src="tyrano/images/system/slot_number/empty/{{:num}}.png">
+								{{/if}}
+								<img class='save_list_item_num_left_hover' data-num='{{:num}}' data-status='hover' src="tyrano/images/system/slot_number/hover/{{:num}}.png">
+							</div>
+                        </div>
+                        <div class="fila">
+                            <div class="columna new_slot" data-num='{{:num}}'>
+							    {{if num == slot_new}}
+								    <img class='save_list_item_new' data-num='{{:num}}' src="tyrano/images/system/icon_new.png">
+								{{/if}}
+							</div>
+                        </div>
+                     </div>
+    				<span class='save_list_item_thumb'>
+    				{{if img_data != ""}}
+    					<img src="{{:img_data}}">
+					{{else}}
+                        <img src="tyrano/images/system/save_thumb_empty.png">
+    				{{/if}}
+    				</span>
+    				
+    				<span class='save_list_item_area'>
+                        <div class="row">
+                            <div class="column">
+                                <span class='save_list_item_scene_part_number'>{{:scene_part_number}}</span>
+                            </div>
+                            <div class="column">
+                                <span class='save_list_item_text'>{{:title}}</span>
+                            </div>
+                        </div> 
+                        <div class="row">
+                            <div class="column">
+                                <span class='save_list_item_date_text'>{{:date_text}}</span>
+                            </div>
+                            <div class="column">
+                                <span class='save_list_item_date'>{{:save_date}}</span>
+                            </div>
+                            <div class="column">
+                                <span class='save_list_item_game_time_text'>{{:game_time_text}}</span>
+                            </div>
+                            <div class="column">
+                                <span class='save_list_item_game_time'>{{:game_time}}</span>
+                            </div>
+                        </div> 
+                        <!-- <span class='save_list_item_text_empty'>No hay datos guardados</span> -->
+    				</span>
+					<span class="overlay"></span>
+    			</li>
+    		{{/for}}
+    	</ul>
+    
+    </div>
+	
+	<img class="img_label img_label_save" src='tyrano/images/system/opt_menu_save.png' style='left:330px;top:50px;position:absolute;'>
+	<img class="img_bg_base" src='tyrano/images/system/load_bg.png' style='z-index:-1;left:0;top:0;width:100%;height:100%;position:absolute;'>
+
+	<script>
+    $(document).ready(function() {
+        $(".area_save_list").scroll(function() {
+            if ($(this).scrollTop() === 0) {
+                $(".button_arrow_up").attr("src", "tyrano/images/system/log_scroll_pad.png");
+            } else {
+                $(".button_arrow_up").attr("src", "tyrano/images/system/log_scroll_pad_up.png");
+            }
+            if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+                $(".button_arrow_down").attr("src", "tyrano/images/system/log_scroll_pad.png");
+            } else {
+                $(".button_arrow_down").attr("src", "tyrano/images/system/log_scroll_pad_down.png");
+            }
+        });
+
+		$(".save_list_item_num_left_hover").hide();
+		
+        $('.save_list_item').hover(
+          function() {
+		     var dataNum = $(this).data('num');
+		     $(".save_list_item_num_left_hover[data-num="+dataNum+"]").show();
+          },
+          function() {
+		    var dataNum = $(this).data('num');
+		    $(".save_list_item_num_left_hover[data-num="+dataNum+"]").hide();
+          }
+        );
+		
+        $(".button_arrow_up").click(function() {
+            var pos = $(".area_save_list").scrollTop() - 160;
+            $(".area_save_list").animate({
+                scrollTop: pos
+            }, {
+                queue: false
+            });
+        });
+        
+        $(".button_arrow_down").click(function() {
+            var pos = $(".area_save_list").scrollTop() + 160;
+            $(".area_save_list").animate({
+                scrollTop: pos
+            }, {
+                queue: false
+            });
+        });
+		
+        function animateNewIcon() {
+            var newIcon = $(".save_list_item_new");
+            newIcon.addClass("scaling-animation");
+        }
+        animateNewIcon();
+	
+    });
+    </script>
+</div>
